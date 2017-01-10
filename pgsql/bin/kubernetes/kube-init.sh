@@ -7,6 +7,11 @@ msg() {
     echo >&2 "$*"
 }
 
+fatal() {
+    echo >&2 "Fatal error: $*"
+    exit 1
+}
+
 if [ -e "/var/run/secrets/kubernetes.io/serviceaccount/token" ]; then
     TOKEN=$(< "/var/run/secrets/kubernetes.io/serviceaccount/token")
 
@@ -165,6 +170,10 @@ kube-obj-incr-annotation() {
     done
 }
 
+if [ -z "$POD_NAME" -o -z "$POD_NAMESPACE" -o -z "$ENDPOINTS_NAME" ]; then
+    fatal "POD_NAME='$POD_NAME' or POD_NAMESPACE='$POD_NAMESPACE' or ENDPOINTS_NAME='$ENDPOINTS_NAME' variables are not set or empty"
+fi
+
 POD_LINK="/api/v1/namespaces/${POD_NAMESPACE}/pods/${POD_NAME}"
 POD_RESP=$(kube-request "$POD_LINK")
 NODES_RESP=$(kube-request "/api/v1/nodes")
@@ -179,7 +188,7 @@ NODE_ID=$(kube-get-annotation "pgsql/node-id" <<<"$POD_RESP")
 NODE_ID_ORIG=$NODE_ID
 
 while [[ ! ( "$NODE_ID" =~ ^[0-9]+$ ) || "$NODE_ID" -le 0 ]]; do
-   echo "NODE_ID=$NODE_ID is not a number"
+   echo "NODE_ID='$NODE_ID' is not a number"
 
    NODE_ID=$(kube-obj-incr-annotation --return-new "${ENDPOINTS_LINK}" "pgsql/counter" 1)
 done
@@ -237,10 +246,10 @@ if [[ $? == 0 ]]; then
         etchosts update "$MASTER_NAME" "$MASTER_IP"
     fi
     if [[ "$NODE_TYPE" == "master" ]]; then
-        export REPLICATION_UPSTREAM_NODE_ID=""
+        export CURRENT_REPLICATION_UPSTREAM_NODE_ID=""
         export CURRENT_REPLICATION_PRIMARY_HOST=""
     else
-        export REPLICATION_UPSTREAM_NODE_ID="$MASTER_ID"
+        export CURRENT_REPLICATION_UPSTREAM_NODE_ID="$MASTER_ID"
         export CURRENT_REPLICATION_PRIMARY_HOST="$MASTER_NAME"
     fi
     echo ">>> Set REPLICATION_UPSTREAM_NODE_ID to $REPLICATION_UPSTREAM_NODE_ID"
