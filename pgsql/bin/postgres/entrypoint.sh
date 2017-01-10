@@ -5,7 +5,7 @@ export CURRENT_NODE_TYPE="$INITIAL_NODE_TYPE"
 export CURRENT_REPLICATION_PRIMARY_HOST="$REPLICATION_PRIMARY_HOST"
 export CURRENT_REPLICATION_UPSTREAM_NODE_ID="$REPLICATION_UPSTREAM_NODE_ID"
 
-if [ `ls $PGDATA/ | wc -l` != "0" ]; then
+if [ "$(ls -A "$PGDATA"/)" ]; then
     echo ">>> Data folder is not empty $PGDATA:"
     ls -al "$PGDATA"
 
