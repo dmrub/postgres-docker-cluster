@@ -19,7 +19,7 @@ ENV CHECK_PGCONNECT_TIMEOUT 10
 ENV WAIT_BACKEND_TIMEOUT 120
 ENV REQUIRE_MIN_BACKENDS 0
 
-HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
-  CMD /usr/local/bin/pgpool/has_write_node.sh
+#HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
+#  CMD /usr/local/bin/pgpool/has_write_node.sh
 
 CMD ["/usr/local/bin/pgpool/entrypoint.sh"]
