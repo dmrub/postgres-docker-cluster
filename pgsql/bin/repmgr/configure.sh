@@ -26,7 +26,7 @@ reconnect_attempts=$RECONNECT_ATTEMPTS
 reconnect_interval=$RECONNECT_INTERVAL
 master_response_timeout=$MASTER_RESPONSE_TIMEOUT
 loglevel=$LOG_LEVEL
-" >> $REPMGR_CONFIG_FILE
+" >> "$REPMGR_CONFIG_FILE"
 
 echo ">>> Setting up upstream node..."
 if [[ "$CURRENT_NODE_TYPE" != "master" ]]; then
@@ -39,6 +39,6 @@ if [[ "$CURRENT_NODE_TYPE" != "master" ]]; then
         exit 1
     fi
 
-    echo "upstream_node=$CURRENT_REPLICATION_UPSTREAM_NODE_ID" >> $REPMGR_CONFIG_FILE
+    echo "upstream_node=$CURRENT_REPLICATION_UPSTREAM_NODE_ID" >> "$REPMGR_CONFIG_FILE"
 fi
-chown postgres $REPMGR_CONFIG_FILE
+chown postgres "$REPMGR_CONFIG_FILE"
