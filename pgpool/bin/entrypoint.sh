@@ -105,4 +105,4 @@ done
 
 
 rm -rf /var/run/postgresql/pgpool.pid #in case file exists after urgent stop
-pgpool -n
+exec pgpool -n

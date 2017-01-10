@@ -4,4 +4,4 @@ set -e
 #/usr/local/bin/cluster/ssh/start.sh
 
 echo '>>> STARTING POSTGRES...'
-/usr/local/bin/cluster/postgres/entrypoint.sh
+exec /usr/local/bin/cluster/postgres/entrypoint.sh

@@ -26,4 +26,4 @@ else
     /usr/local/bin/cluster/postgres/standby/entrypoint.sh &
 fi
 
-/usr/local/bin/cluster/repmgr/start.sh
+exec /usr/local/bin/cluster/repmgr/start.sh

@@ -8,4 +8,4 @@ gosu postgres repmgr "$CURRENT_NODE_TYPE" register --force || echo ">>>>>> Can't
 
 echo ">>> Starting repmgr daemon..."
 rm -rf /tmp/repmgrd.pid
-gosu postgres repmgrd -vvv --pid-file=/tmp/repmgrd.pid
+exec gosu postgres repmgrd -vvv --pid-file=/tmp/repmgrd.pid
