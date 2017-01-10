@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -e
+if [ "$KUBE_DEBUG" = "1" ]; then
+    set -x
+fi
 
 echo ">>> Kubernetes initialization"
 
@@ -194,7 +197,8 @@ while [[ ! ( "$NODE_ID" =~ ^[0-9]+$ ) || "$NODE_ID" -le 0 ]]; do
 done
 
 if [ "$NODE_ID" != "$NODE_ID_ORIG" ]; then
-    kube-obj-set-annotation "$POD_LINK" "pgsql/node-id" "$NODE_ID"
+    echo ">>> Set pod annotation pgsql/node-id to $NODE_ID"
+    kube-obj-set-annotation "$POD_LINK" "pgsql/node-id" "$NODE_ID" > /dev/null
 fi
 
 echo "POD_NAME       = $POD_NAME"
