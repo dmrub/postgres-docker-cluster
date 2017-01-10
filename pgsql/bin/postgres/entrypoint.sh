@@ -16,6 +16,11 @@ if [ "$(ls -A "$PGDATA"/)" ]; then
 fi
 chown -R postgres $PGDATA && chmod -R 0700 $PGDATA
 
+# Initialize via Kubernetes
+if [[ "$KUBE_INIT" == "1" ]]; then
+    source "/usr/local/bin/cluster/kubernetes/kube-init.sh"
+fi
+
 /usr/local/bin/cluster/repmgr/configure.sh
 
 echo ">>> Sending in background postgres start..."
