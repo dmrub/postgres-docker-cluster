@@ -8,7 +8,8 @@ if [ -z "$CLUSTER_NODE_NETWORK_NAME" ]; then
     CLUSTER_NODE_NETWORK_NAME="`hostname`"
 fi
 echo ">>> Adding loopback '127.0.0.1 $CLUSTER_NODE_NETWORK_NAME'"
-echo "127.0.0.1 $CLUSTER_NODE_NETWORK_NAME" >> /etc/hosts
+etchosts update "$CLUSTER_NODE_NETWORK_NAME" "127.0.0.1"
+
 # Need this loopback to speedup connections, also k8s doesn't have DNS loopback by service name on the same pod
 
 echo ">>> Setting up repmgr config file '$REPMGR_CONFIG_FILE'..."
